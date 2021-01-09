@@ -10,7 +10,6 @@
         "pxt-androidcontroller": "github:ogadai/pxt-androidcontroller#master"
     },
     "files": [
-        "main.blocks",
         "main.ts",
         "README.md"
     ],

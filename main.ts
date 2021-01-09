@@ -20,15 +20,26 @@ Controller.onPressed(acBtn.DLeft, function () {
 
 Controller.onPressed(acBtn.XB, function () {
     commands = [];
+    music.playTone(180, music.beat(BeatFraction.Quarter));
+    music.playTone(294, music.beat(BeatFraction.Quarter));
+    music.playTone(180, music.beat(BeatFraction.Quarter));
 });
 
 Controller.onPressed(acBtn.XA, function () {
     if (running) return;
     running = true;
+
+    music.playTone(523, music.beat(BeatFraction.Quarter));
+    music.playTone(450, music.beat(BeatFraction.Quarter));
+    music.playTone(523, music.beat(BeatFraction.Quarter));
+
     control.inBackground(function () {
         for(let n = 0; n < commands.length; n++) {
+            basic.showNumber(n);
             doAction(commands[n]);
         }
+        basic.showIcon(IconNames.Asleep);
+        stopAll();
         running = false;
     });
 });
@@ -39,22 +50,27 @@ function doAction(action: number): void {
     if (action === 1) {
         servos.P1.run(100)
         servos.P2.run(-100)
-        delayMs = 1000;
+        delayMs = 300;
     } else if (action === 3) {
         servos.P1.run(-100)
         servos.P2.run(100)
-        delayMs = 1000;
+        delayMs = 300;
     } else if (action === 2) {
         servos.P1.run(-100)
         servos.P2.run(-100)
-        delayMs = 1000;
-    } else if (action === 2) {
+        delayMs = 300;
+    } else if (action === 4) {
         servos.P1.run(100)
         servos.P2.run(100)
-        delayMs = 1000;
+        delayMs = 300;
     }
 
-    control.waitMicros(delayMs * 1000)
+    basic.pause(delayMs);
+}
+
+function stopAll() {
+    servos.P1.stop()
+    servos.P2.stop()
 }
 
 bluetooth.onBluetoothConnected(function () {
